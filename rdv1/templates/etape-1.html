@@ -1,0 +1,43 @@
+
+<div ng-show="employee_type_choice">
+	<p>Souhaitiez-vous prendre rendez-vous avec un employé particulier?</p>
+	<div class="btn-group" data-toggle="buttons" >
+		<label class="btn btn-primary">
+			<input type="radio" name="employeetype" ng-click="showEmployeeBlock()" ng-model="appointment.employeetype" value="true" autocomplete="off"> Oui
+		</label>
+		<label class="btn btn-primary">
+			<input type="radio" name="noemployeetype" ng-click="razDetails()" ng-model="appointment.noemployeetype" autocomplete="off"> Non
+		</label>
+	</div>
+</div>
+<!-- <div ng-show="appointment.employeetype || noemployeetype"> -->
+<div>
+	<div class="animate-show m-t-3" ng-show="employee_choice">
+		<p>Je souhaite prendre rendez-vous avec:</p>
+		<div class="form-group">
+			<ul class="list-group">
+			  <li class="list-group-item container-fluid" ng-repeat="employeeservice in employeesservice">
+				  <div class="center-block employee"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{employeeservice.name}} </div>
+				  <div class="center-block employee"><button ng-click="checkEmployee(employeeservice.name, employeeservice.employee_id)" type="button" class="btn btn-xs btn-primary">Choisir</button>
+				  <a href="tel:{{businessinformations.country_code}}{{businessinformations.phonenumber}}" class="btn btn-xs btn-primary" ><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>  Appeler</a></div>
+			  </li>
+			</ul>
+		</div>
+	</div>
+	<div class="animate-show m-t-3" ng-show="appointment.dates">
+		<label for="bookingdate" class="col-form-label">Choisissez la date du rendez-vous</label>
+        <p class="input-group">
+			<input type="text" readonly="true" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" id="bookingdate" alt-input-formats="altInputFormats" ng-change="dateChange()" show-button-bar="showButtonBar" />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-default " ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+			</span>
+        </p>
+        <div class="" >
+        	<label class="col-form-label" >Choisissez l'heure du rendez-vous:</label>
+        	<div class="clearfix visible-xs-block"></div>
+			<input type="button" ng-repeat="hour in appointment.hours" value="{{ hour }}" class="btn btn-primary" ng-click="selectHour( hour)" />
+			<p class="bs-callout bs-callout-danger col-xs-12" role="alert" ng-hide="appointment.hours">Aucun horaire disponible</p>
+		</div>
+	</div>
+	<button type="button" class="btn btn-primary btn-success pull-right" ng-show="appointment.next" ng-click="getForm()">Suivant</button>
+</div>

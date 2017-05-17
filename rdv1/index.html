@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="appointmentApp">
+    <head>
+    	<meta charset="utf8" />
+    	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    	<title ng-bind="title">Prise de rendez-vous</title>
+    	<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/docs.css" rel="stylesheet">
+    	<link rel="stylesheet" href="css/style.css" >
+    	<style type="text/css">
+    		body{ {{color.text}} }
+    		#main-content.container, body{ {{color.background}} }
+    		.h1, .h2, .h3, h1, h2, h3{ {{color.title}} }
+    		.btn.btn-primary{ 
+    			{{color.button}}
+    			{{color.button_text}}
+    			border-color: {{color.border_color}}!important;
+    		}
+    		.bs-callout.bs-callout-info.panel.bs-perso{ border-top-color:{{color.border_color}}!important; }
+    		.resume.panel.bs-callout.bs-callout-success{ border-left-color:{{color.border_color}}!important; }
+    		.panel, .list-group-item{ 
+    			border-color:{{color.border_color}}!important;
+    			{{color.background_block}}
+    		}
+    		.bs-callout.bs-callout-info.panel.bs-perso .panel-heading{
+    			background-color: {{color.background_heading_block}}!important;
+    			border-color: {{color.background_heading_block}}!important;
+    		}
+    		.panel-footer{
+    			background-color: {{color.background_footer_block}}!important;
+    			border-color: {{color.background_footer_block}}!important;
+    		}
+    		.form-control:focus{border-color: {{color.border_color}}!important;}
+    		.form-control{ {{color.text}} }
+    	</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="js/angular.min.js"></script>
+    	<script src="js/angular-locale_fr-fr.js"></script>
+    	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.1.4.js"></script>
+    	<script type="text/javascript" src="js/app.js"></script>
+    </head>
+    <body>
+		<div class="container" id="main-content">
+			<div class="" ng-controller="appointmentCtrl" >
+				<div class="loading-bloc" ng-show="showLoading">
+					<i class="glyphicon glyphicon-repeat gly-spin loaderbooking"></i>
+				</div>
+				<div class="alert alert-success col-xs-12 ng-hide block-success" role="alert" ng-show="successSend">Rendez-vous passé avec succès.<br /><br />
+				<input class="btn btn-success" type="button" ng-click="backChoice()" value="Retour"></div>
+				<div class="alert alert-danger col-xs-12 ng-hide block-failed" role="alert" ng-show="failledSend">Votre prise de rendez-vous n'a pas pu aboutir.<br />Veuillez contacter directement <strong>{{businessinformations.app_name}}</strong> par mail <a href="mailto:{{businessinformations.email_contact}}">{{businessinformations.email_contact}}</a> ou par téléphone <a href="tel:{{businessinformations.country_code}}{{businessinformations.phonenumber}}">{{businessinformations.phonenumber}}</a>.<br /><br />
+				<input class="btn btn-success" type="button" ng-click="backChoice()" value="Retour"></div>
+				<form name="appointmentform" ng-submit="submitForm()">
+					<input type="hidden" value="3" id="app_id" name="app_id" />
+					<div class="col-xs-12 row ng-hide" ng-show="defaultblocTitle"><h3>Prise de rendez-vous <strong class="ng-hide" ng-show="defaultblocTitle">{{businessinformations.app_name}}</strong></h3></div>
+					<div class="clearfix"></div>
+					<div ng-hide="selectservice">
+						<div class="bs-callout bs-callout-info panel bs-perso col-xs-12 " ng-repeat="service in appointment.services" >
+							<div  class="panel-heading"><h3 class="panel-title">{{service.service_name}}</h3></div>
+							<div class="panel-body">{{service.description}}</div>
+							<div class="panel-footer col-xs-12">
+								<div class="panel-footer-content pull-left">
+									<span class="glyphicon glyphicon-time" aria-hidden="true"></span><span class="duration-case"> {{service.duration}}</span>
+									<span ng-if="service.price">
+										 - 
+										<span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span><span class="price-case"> {{service.price}} {{businessinformations.currency}}</span>
+									</span>
+								</div>
+								<button type="button" ng-click="serviceChoice(service.service_name, service.duration, service.price, service.service_id)" class="btn btn-primary pull-right">Choisir</button>
+							</div>
+						</div>
+					</div>
+					<div class="resume panel bs-callout bs-callout-success" ng-show="defaultbloc">
+						<div  class="panel-heading"><h3 class="panel-title">Résumé</h3></div>
+						<div class="panel-body">
+							<div class="pull-left">
+								<div class="service_name">Service: {{appt.service_name}}</div>
+								<div class="service_name">Durée: {{appt.service_duration}}</div>
+								<div ng-if="appt.service_price" class="service_name">Prix: {{appt.service_price}} {{businessinformations.currency}}</div>
+							</div>
+							<button ng-click="showServiceChoice()" type="button" class="btn btn-sm btn-primary pull-right">
+								<span class="glyphicon glyphicon-edit"></span> Modifier
+							</button>
+						</div>
+						<div class="panel-body" ng-show="resume_type">
+							<div class="pull-left">
+								<div class="service_name">Employé particulier: {{appt.type}}</div>
+							</div>
+							<button ng-click="showApptType()" type="button" class="btn btn-sm btn-primary pull-right">
+								<span class="glyphicon glyphicon-edit"></span> Modifier
+							</button>
+						</div>
+						<div class="panel-body" ng-show="resume_employee">
+							<div class="pull-left">
+								<div class="service_name">Employé(e): {{appt.employee}}</div>
+							</div>
+							<button ng-click="showApptEmployee()" type="button" class="btn btn-sm btn-primary pull-right">
+								<span class="glyphicon glyphicon-edit"></span> Modifier
+							</button>
+						</div>
+						<div class="panel-body" ng-show="resume_dates">
+							<div class="pull-left">
+								<div class="service_name">Date: {{appt.date}}</div>
+								<div class="service_name">Heure: {{appt.hour}}</div>
+							</div>
+							<button ng-click="showApptDate()" type="button" class="btn btn-sm btn-primary pull-right">
+								<span class="glyphicon glyphicon-edit"></span> Modifier
+							</button>
+						</div>
+					</div>
+					<div id="etape-1" first-etape ng-show="defaultbloc" ></div>
+					<div id="user-form" class="col-xs-12 animate-show" ng-show="formbloc" ></div>
+				</form>
+			</div>
+		</div>
+    </body>
+</html>

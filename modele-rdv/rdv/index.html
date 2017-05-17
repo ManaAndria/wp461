@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="appointmentApp">
+    <head>
+    	<meta charset="utf8" />
+    	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    	<title>Prise de rendez-vous [{{businessinformations.app_name}}]</title>
+    	<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    	<link rel="stylesheet" href="css/style.css" >
+    </head>
+    <body>
+		<div class="container" >
+			<div class="row" ng-controller="appointmentCtrl" >
+				<div class="loading-bloc" ng-show="showLoading">
+					<i class="glyphicon glyphicon-repeat gly-spin loaderbooking"></i>
+				</div>
+				<div class="alert alert-success col-xs-12" role="alert" ng-show="successSend">Rendez-vous passé avec succès.<br /><br />
+				<input class="btn btn-success" type="button" ng-click="backChoice()" value="Retour"></div>
+				<div class="alert alert-danger col-xs-12" role="alert" ng-show="failledSend">Votre prise de rendez-vous n'a pas pu aboutir.<br />Veuillez contacter directement le fournisseur par mail directeur.informatique@netunivers.com ou par téléphone 00 00 00 00 00.<br /><br />
+				<input class="btn btn-success" type="button" ng-click="backChoice()" value="Retour"></div>
+				<form name="appointmentform" ng-submit="submitForm()">
+					<input type="hidden" value="{app_id}" id="app_id" name="app_id" />
+					<div class="col-xs-12"><h3>Prise de rendez-vous [{{businessinformations.app_name}}]</h3></div>
+					<div id="etape-1" first-etape ng-show="defaultbloc" ></div>
+					<div id="user-form" class="col-xs-12 animate-show" ng-show="formbloc" ></div>
+				</form>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="js/angular.min.js"></script>
+    	<script src="js/angular-locale_fr-fr.js"></script>
+    	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.1.4.js"></script>
+    	<script type="text/javascript" src="js/app.js"></script>
+    </body>
+</html>

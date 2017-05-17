@@ -1,0 +1,27 @@
+<p>Prise de rendez-vous <span ng-show="appointment.employeename">avec {{appointment.employeename}}</span> - {{appointment.date}} à {{appointment.hour}}.</p>
+<div class="form-group required" ng-class="{ 'has-error' : userForm.userfirstname.$invalid && !userForm.userfirstname.$pristine }">
+    <label for="userfirstname" class="col-form-label">Prénom(s)</label>
+    	<input type="text" name="userfirstname" ng-model="userfirstname" class="form-control" id="userfirstname" placeholder="Prénom(s)" required />
+    	<p ng-show="userForm.userfirstname.$invalid && !userForm.userfirstname.$pristine" class="help-block">Votre prénom est réquis.</p>
+</div>
+<div class="form-group required" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+    <label for="username" class="col-form-label">Nom</label>
+    	<input type="text" name="username" ng-model="username" class="form-control" id="username" placeholder="Nom" required />
+    	<p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block">Votre nom est réquis.</p>
+</div>
+<div class="form-group required" ng-class="{'has-error' : userForm.useremail.$invalid && !userForm.useremail.$pristine}">
+    <label for="useremail" class="col-form-label">E-mail</label>
+    	<input type="email" name="useremail" ng-model="useremail" class="form-control" id="useremail" placeholder="E-mail" required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
+    	<p ng-messages="userForm.useremail.$error" ng-show="userForm.useremail.$error.pattern" class="help-block" ><span ng-message="pattern">Email invalide</span></p>
+	</div>
+	<div class="form-group required" ng-class="{ 'has-error' : userForm.userphone.$invalid && !userForm.userphone.$pristine }">
+    <label for="userphone" class="col-form-label">Mobile</label>
+    	<input type="text" name="userphone" ng-model="userphone" class="form-control" id="userphone" placeholder="Mobile" required />
+    	<p ng-show="userForm.userphone.$invalid && !userForm.userphone.$pristine" class="help-block" >Votre numéro de téléphone est réquis</p>
+	</div>
+	<div class="form-group">
+		<label class="col-form-label" ng-click="showMessageBlock()">Laisser un message pour le rendez-vous.&nbsp;<span class="glyphicon glyphicon-{{openclosesign}}-sign"></span></label>
+		<textarea class="form-control" rows="3" ng-model="appointment.usermessage" ng-show="addmessage"></textarea>
+	</div>
+	<button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary" >Reserver</button>
+	<input class="btn btn-danger" type="button" ng-click="backChoice()" value="Annuler">

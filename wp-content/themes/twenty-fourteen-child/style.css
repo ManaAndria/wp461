@@ -1,0 +1,34 @@
+/*
+ Theme Name:   Twenty Fourteen Child
+ Theme URI:    
+ Description:  Twenty Fourteen Child Theme
+ Author:       
+ Author URI:   
+ Template:     twentyfourteen
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         
+ Text Domain:  twenty-fourteen-child
+*/
+
+.site-header, .site{max-width: unset;}
+@media screen and (min-width: 1080px){
+	#secondary {
+	    width: 250px;
+	}
+}
+@media screen and (min-width: 783px){
+	#secondary ul li.menu-item > a {display: inline-block;padding: 0px 5px;}
+	#secondary ul li.menu-item:hover > a, #secondary li.current-menu-item > a {
+	    background-color: #24890d;
+	    color: #fff;
+	    text-decoration: none;
+	}
+	#secondary ul li.menu-item{margin-bottom: 2px}
+	#menu-comptes{margin-bottom: 0px;}
+}
+
+.entry-content #booking table a.fc-event{text-decoration: none!important;}
+.entry-content #booking table a.fc-event:hover{text-decoration: underline!important}
+#booking button, #booking .button, #booking input[type="button"], #booking input[type="reset"], #booking input[type="submit"]{text-transform: none!important;}
